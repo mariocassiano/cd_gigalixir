@@ -6,7 +6,7 @@ defmodule CdGigalixirWeb.CategoryLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :name, Categories.list_name())}
+    {:ok, stream(socket, :categories, Categories.list_categories())}
   end
 
   @impl true
@@ -28,13 +28,13 @@ defmodule CdGigalixirWeb.CategoryLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Name")
+    |> assign(:page_title, "Listing Categories")
     |> assign(:category, nil)
   end
 
   @impl true
   def handle_info({CdGigalixirWeb.CategoryLive.FormComponent, {:saved, category}}, socket) do
-    {:noreply, stream_insert(socket, :name, category)}
+    {:noreply, stream_insert(socket, :categories, category)}
   end
 
   @impl true
@@ -42,6 +42,6 @@ defmodule CdGigalixirWeb.CategoryLive.Index do
     category = Categories.get_category!(id)
     {:ok, _} = Categories.delete_category(category)
 
-    {:noreply, stream_delete(socket, :name, category)}
+    {:noreply, stream_delete(socket, :categories, category)}
   end
 end

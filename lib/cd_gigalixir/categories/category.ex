@@ -2,7 +2,8 @@ defmodule CdGigalixir.Categories.Category do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "name" do
+  schema "categories" do
+    field :name, :string
     field :description, :string
 
     timestamps(type: :utc_datetime)
@@ -11,7 +12,7 @@ defmodule CdGigalixir.Categories.Category do
   @doc false
   def changeset(category, attrs) do
     category
-    |> cast(attrs, [:description])
-    |> validate_required([:description])
+    |> cast(attrs, [:name, :description])
+    |> validate_required([:name, :description])
   end
 end

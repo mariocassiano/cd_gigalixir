@@ -3,16 +3,16 @@ defmodule CdGigalixir.CategoriesTest do
 
   alias CdGigalixir.Categories
 
-  describe "name" do
+  describe "categories" do
     alias CdGigalixir.Categories.Category
 
     import CdGigalixir.CategoriesFixtures
 
-    @invalid_attrs %{description: nil}
+    @invalid_attrs %{name: nil, description: nil}
 
-    test "list_name/0 returns all name" do
+    test "list_categories/0 returns all categories" do
       category = category_fixture()
-      assert Categories.list_name() == [category]
+      assert Categories.list_categories() == [category]
     end
 
     test "get_category!/1 returns the category with given id" do
@@ -21,9 +21,10 @@ defmodule CdGigalixir.CategoriesTest do
     end
 
     test "create_category/1 with valid data creates a category" do
-      valid_attrs = %{description: "some description"}
+      valid_attrs = %{name: "some name", description: "some description"}
 
       assert {:ok, %Category{} = category} = Categories.create_category(valid_attrs)
+      assert category.name == "some name"
       assert category.description == "some description"
     end
 
@@ -33,9 +34,11 @@ defmodule CdGigalixir.CategoriesTest do
 
     test "update_category/2 with valid data updates the category" do
       category = category_fixture()
-      update_attrs = %{description: "some updated description"}
+      update_attrs = %{name: "some updated name", description: "some updated description"}
 
       assert {:ok, %Category{} = category} = Categories.update_category(category, update_attrs)
+      assert category.name == "some updated name"
+
       assert category.description == "some updated description"
     end
 

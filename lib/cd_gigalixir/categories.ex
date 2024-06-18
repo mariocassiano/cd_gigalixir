@@ -9,15 +9,15 @@ defmodule CdGigalixir.Categories do
   alias CdGigalixir.Categories.Category
 
   @doc """
-  Returns the list of name.
+  Returns the list of categories.
 
   ## Examples
 
-      iex> list_name()
+      iex> list_categories()
       [%Category{}, ...]
 
   """
-  def list_name do
+  def list_categories do
     Repo.all(Category)
   end
 

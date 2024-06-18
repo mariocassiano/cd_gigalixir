@@ -1,23 +1,24 @@
 <.header>
-  Listing Name
+  Listing Categories
   <:actions>
-    <.link patch={~p"/name/new"}>
+    <.link patch={~p"/categories/new"}>
       <.button>New Category</.button>
     </.link>
   </:actions>
 </.header>
 
 <.table
-  id="name"
-  rows={@streams.name}
-  row_click={fn {_id, category} -> JS.navigate(~p"/name/#{category}") end}
+  id="categories"
+  rows={@streams.categories}
+  row_click={fn {_id, category} -> JS.navigate(~p"/categories/#{category}") end}
 >
+  <:col :let={{_id, category}} label="Name"><%= category.name %></:col>
   <:col :let={{_id, category}} label="Description"><%= category.description %></:col>
   <:action :let={{_id, category}}>
     <div class="sr-only">
-      <.link navigate={~p"/name/#{category}"}>Show</.link>
+      <.link navigate={~p"/categories/#{category}"}>Show</.link>
     </div>
-    <.link patch={~p"/name/#{category}/edit"}>Edit</.link>
+    <.link patch={~p"/categories/#{category}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, category}}>
     <.link
@@ -29,13 +30,18 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="category-modal" show on_cancel={JS.patch(~p"/name")}>
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="category-modal"
+  show
+  on_cancel={JS.patch(~p"/categories")}
+>
   <.live_component
     module={CdGigalixirWeb.CategoryLive.FormComponent}
     id={@category.id || :new}
     title={@page_title}
     action={@live_action}
     category={@category}
-    patch={~p"/name"}
+    patch={~p"/categories"}
   />
 </.modal>

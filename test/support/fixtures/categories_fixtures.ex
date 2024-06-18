@@ -11,7 +11,8 @@ defmodule CdGigalixir.CategoriesFixtures do
     {:ok, category} =
       attrs
       |> Enum.into(%{
-        description: "some description"
+        description: "some description",
+        name: "some name"
       })
       |> CdGigalixir.Categories.create_category()
 

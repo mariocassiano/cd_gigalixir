@@ -4,9 +4,9 @@ defmodule CdGigalixirWeb.CategoryLiveTest do
   import Phoenix.LiveViewTest
   import CdGigalixir.CategoriesFixtures
 
-  @create_attrs %{description: "some description"}
-  @update_attrs %{description: "some updated description"}
-  @invalid_attrs %{description: nil}
+  @create_attrs %{name: "some name", description: "some description"}
+  @update_attrs %{name: "some updated name", description: "some updated description"}
+  @invalid_attrs %{name: nil, description: nil}
 
   defp create_category(_) do
     category = category_fixture()
@@ -16,20 +16,20 @@ defmodule CdGigalixirWeb.CategoryLiveTest do
   describe "Index" do
     setup [:create_category]
 
-    test "lists all name", %{conn: conn, category: category} do
-      {:ok, _index_live, html} = live(conn, ~p"/name")
+    test "lists all categories", %{conn: conn, category: category} do
+      {:ok, _index_live, html} = live(conn, ~p"/categories")
 
-      assert html =~ "Listing Name"
-      assert html =~ category.description
+      assert html =~ "Listing Categories"
+      assert html =~ category.name
     end
 
     test "saves new category", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, ~p"/name")
+      {:ok, index_live, _html} = live(conn, ~p"/categories")
 
       assert index_live |> element("a", "New Category") |> render_click() =~
                "New Category"
 
-      assert_patch(index_live, ~p"/name/new")
+      assert_patch(index_live, ~p"/categories/new")
 
       assert index_live
              |> form("#category-form", category: @invalid_attrs)
@@ -39,20 +39,20 @@ defmodule CdGigalixirWeb.CategoryLiveTest do
              |> form("#category-form", category: @create_attrs)
              |> render_submit()
 
-      assert_patch(index_live, ~p"/name")
+      assert_patch(index_live, ~p"/categories")
 
       html = render(index_live)
       assert html =~ "Category created successfully"
-      assert html =~ "some description"
+      assert html =~ "some name"
     end
 
     test "updates category in listing", %{conn: conn, category: category} do
-      {:ok, index_live, _html} = live(conn, ~p"/name")
+      {:ok, index_live, _html} = live(conn, ~p"/categories")
 
-      assert index_live |> element("#name-#{category.id} a", "Edit") |> render_click() =~
+      assert index_live |> element("#categories-#{category.id} a", "Edit") |> render_click() =~
                "Edit Category"
 
-      assert_patch(index_live, ~p"/name/#{category}/edit")
+      assert_patch(index_live, ~p"/categories/#{category}/edit")
 
       assert index_live
              |> form("#category-form", category: @invalid_attrs)
@@ -62,18 +62,18 @@ defmodule CdGigalixirWeb.CategoryLiveTest do
              |> form("#category-form", category: @update_attrs)
              |> render_submit()
 
-      assert_patch(index_live, ~p"/name")
+      assert_patch(index_live, ~p"/categories")
 
       html = render(index_live)
       assert html =~ "Category updated successfully"
-      assert html =~ "some updated description"
+      assert html =~ "some updated name"
     end
 
     test "deletes category in listing", %{conn: conn, category: category} do
-      {:ok, index_live, _html} = live(conn, ~p"/name")
+      {:ok, index_live, _html} = live(conn, ~p"/categories")
 
-      assert index_live |> element("#name-#{category.id} a", "Delete") |> render_click()
-      refute has_element?(index_live, "#name-#{category.id}")
+      assert index_live |> element("#categories-#{category.id} a", "Delete") |> render_click()
+      refute has_element?(index_live, "#categories-#{category.id}")
     end
   end
 
@@ -81,19 +81,19 @@ defmodule CdGigalixirWeb.CategoryLiveTest do
     setup [:create_category]
 
     test "displays category", %{conn: conn, category: category} do
-      {:ok, _show_live, html} = live(conn, ~p"/name/#{category}")
+      {:ok, _show_live, html} = live(conn, ~p"/categories/#{category}")
 
       assert html =~ "Show Category"
-      assert html =~ category.description
+      assert html =~ category.name
     end
 
     test "updates category within modal", %{conn: conn, category: category} do
-      {:ok, show_live, _html} = live(conn, ~p"/name/#{category}")
+      {:ok, show_live, _html} = live(conn, ~p"/categories/#{category}")
 
       assert show_live |> element("a", "Edit") |> render_click() =~
                "Edit Category"
 
-      assert_patch(show_live, ~p"/name/#{category}/show/edit")
+      assert_patch(show_live, ~p"/categories/#{category}/show/edit")
 
       assert show_live
              |> form("#category-form", category: @invalid_attrs)
@@ -103,11 +103,11 @@ defmodule CdGigalixirWeb.CategoryLiveTest do
              |> form("#category-form", category: @update_attrs)
              |> render_submit()
 
-      assert_patch(show_live, ~p"/name/#{category}")
+      assert_patch(show_live, ~p"/categories/#{category}")
 
       html = render(show_live)
       assert html =~ "Category updated successfully"
-      assert html =~ "some updated description"
+      assert html =~ "some updated name"
     end
   end
 end

@@ -19,12 +19,12 @@ defmodule CdGigalixirWeb.Router do
 
     get "/", PageController, :home
 
-    live "/name", CategoryLive.Index, :index
-    live "/name/new", CategoryLive.Index, :new
-    live "/name/:id/edit", CategoryLive.Index, :edit
+    live "/categories", CategoryLive.Index, :index
+    live "/categories/new", CategoryLive.Index, :new
+    live "/categories/:id/edit", CategoryLive.Index, :edit
 
-    live "/name/:id", CategoryLive.Show, :show
-    live "/name/:id/show/edit", CategoryLive.Show, :edit
+    live "/categories/:id", CategoryLive.Show, :show
+    live "/categories/:id/show/edit", CategoryLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
